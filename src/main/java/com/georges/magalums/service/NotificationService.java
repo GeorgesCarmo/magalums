@@ -6,7 +6,10 @@ import com.georges.magalums.entity.Status;
 import com.georges.magalums.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @Service
 public class NotificationService {
@@ -32,5 +35,22 @@ public class NotificationService {
             notification.get().setStatus(Status.values.CANCELED.toStatus());
             notificationRepository.save(notification.get());
         }
+    }
+
+    public void checkAndSend(LocalDateTime dateTime){
+        var notifications = notificationRepository.findByStatusInAndLocalTimeBefore(List.of(
+                Status.values.PENDING.toStatus(), Status.values.ERROR.toStatus()), dateTime);
+
+        notifications.forEach(sendNotification());
+    }
+
+    private Consumer<Notification> sendNotification() {
+        return n -> {
+
+            // TODO - realizar o envio da notificação
+
+            n.setStatus(Status.values.SUCCESS.toStatus());
+            notificationRepository.save(n);
+        };
     }
 }

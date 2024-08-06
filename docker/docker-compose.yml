@@ -3,7 +3,7 @@ services:
     container_name: 'mysql-magalu'
     image: 'mysql:latest'
     environment:
-      - 'MYSQL_DATABASE=mysql-magalu'
+      - 'MYSQL_DATABASE=magaludb'
       - 'MYSQL_PASSWORD=123'
       - 'MYSQL_ROOT_PASSWORD=123'
       - 'MYSQL_USER=admin'
